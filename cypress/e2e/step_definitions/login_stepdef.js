@@ -1,30 +1,33 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
 
+import loginPage from '../pages/loginPage'
+const loginpage = new loginPage()
+
 Given("I open SauceDemo login page", () => {
-  cy.visit("https://www.saucedemo.com");
+  loginpage.NavigateToSouceDemo()
 });
 
 When("I enter username {string}", (username) => {
-  cy.get('[data-test="username"]').type(username);
+  loginpage.EnterUserName(username)
 });
 
 When("I enter password {string}", (password) => {
-  cy.get('[data-test="password"]').type(password);
+  loginpage.EnterPassword(password)
 });
 
 When("I click the login button", () => {
-  cy.get('[data-test="login-button"]').click();
+  loginpage.ClickOnLoginButton()
 });
 
 Then("I should be redirected to the inventory page", () => {
-  cy.url().should("include", "/inventory.html");
+  loginpage.ValidateLandingOnInventoryPage()
 });
 
 Given("I login to SauceDemo with user: {string} and pass: {string}", (username, password) => {
-  cy.visit("https://www.saucedemo.com");
-  cy.get('[data-test="username"]').type(username);
-  cy.get('[data-test="password"]').type(password);
-  cy.get('[data-test="login-button"]').click();
+  loginpage.NavigateToSouceDemo()
+  loginpage.EnterUserName(username)
+  loginpage.EnterPassword(password)
+  loginpage.ClickOnLoginButton()
 });
 
 

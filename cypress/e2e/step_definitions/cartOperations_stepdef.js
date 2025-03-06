@@ -1,23 +1,29 @@
 import { When, Then } from "cypress-cucumber-preprocessor/steps";
 
+import landingPage from '../pages/landingPage'
+import CartPage from '../pages/cartPage'
+
+const landingpage = new landingPage()
+const cartPage = new CartPage()
+
 When('I add {string} to the cart', (item) => {
-  cy.get(`[data-test="add-to-cart-${item}"]`).click();
+  landingpage.AddProducts(item)
 });
 
 Then("the cart icon should show {string} item", (count) => {
-  cy.get(".shopping_cart_badge").should("have.text", count);
+  landingpage.ValidateCartIcon(count);
 });
 
 
 When('I remove {string} from the cart', (item) => {
-    cy.get(`[data-test="remove-${item}"]`).click();
+  landingpage.RemoveProduct(item)
 });
 
 Then("the cart icon should be empty", () => {
-  cy.get(".shopping_cart_badge").should("not.exist");
+  landingpage.ValidateCartIconIsEmpty()
 });
 
 Then("the cart should be empty", () => {
-    cy.get(".removed_cart_item").should("exist");
-  });
+    cartPage.ValidatCartIsEmpty()
+});
   

@@ -26,5 +26,5 @@ Feature: Checkout Process
   Scenario: Checkout with an empty cart
     Given I login to SauceDemo with user: "standard_user" and pass: "secret_sauce"
     When I click on the cart icon
-    When I click the checkout button
+    When I proceed to checkout
     Then I should see an error message

@@ -1,44 +1,45 @@
 import { When, Then } from "cypress-cucumber-preprocessor/steps";
 
+import landingPage from '../pages/landingPage'
+import CartPage from '../pages/cartPage'
+import checkoutPage from '../pages/checkoutPage'
+
+const landingpage = new landingPage()
+const cartpage = new CartPage()
+const checkoutpage = new checkoutPage()
+
 When("I click on the cart icon", () => {
-  cy.get(".shopping_cart_link").click();
+  landingpage.ClickOnCartButton()
 });
 
 Then("I should see the added product in the cart", () => {
-  cy.get(".cart_item").should("exist");
+  cartpage.ValidateAddedProducts()
 });
 
 When("I proceed to checkout", () => {
-  cy.get("#checkout").click();
+  cartpage.ClickOnCheckoutButton()
 });
 
 When('I fill in my details {string} {string} {string}', (firstName, lastName, zipCode) => {
-  cy.get("#first-name").type(firstName);
-  cy.get("#last-name").type(lastName);
-  cy.get("#postal-code").type(zipCode);
-  cy.get("#continue").click();
+  checkoutpage.FillCheckoutDetails(firstName, lastName, zipCode)
 });
 
 When("I finish the checkout process", () => {
-  cy.get("#finish").click();
+  checkoutpage.ClickOnFinish()
 });
 
 Then("I should see the order confirmation message {string}", (message) => {
-  cy.contains(message).should("be.visible");
+  checkoutpage.ValidateConfirmationMessage(message)
 });
 
 When("I click the cancel button", () => {
-  cy.get("#cancel").click();
+  checkoutpage.ClickOnCancel()
 });
 
 Then("I should return to the cart page", () => {
-  cy.url().should("include", "/cart.html");
-});
-
-When("I click the checkout button", () => {
-  cy.get("#checkout").click();
+  checkoutpage.CheckLandingOnCartPage()
 });
 
 Then("I should see an error message", () => {
-  cy.contains("Error: Your cart is empty").should("be.visible");
+ checkoutpage.ValidateErrorIfUserCheckoutCartEmpty()
 });

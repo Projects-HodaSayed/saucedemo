@@ -1,14 +1,19 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
 
+import loginPage from '../pages/loginPage'
+const loginpage = new loginPage()
+
+import landingPage from '../pages/landingPage'
+const landingpage = new landingPage()
+
 When("I click on the menu button", () => {
-  cy.get("#react-burger-menu-btn").click();
+  landingpage.ClickMenu()
 });
 
 When("I click the logout button", () => {
-  cy.get("#logout_sidebar_link").click();
+  landingpage.ClickOnLogoutButton()
 });
 
 Then("I should be redirected to the login page", () => {
-  cy.url().should("eq", "https://www.saucedemo.com/");
-  cy.get("#login-button").should("be.visible");
+  loginpage.ValidateLandingOnLoginPage()
 });
